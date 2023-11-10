@@ -27,6 +27,40 @@ dataPrep <- data %>%
   relocate(emphysema_severity_assessment, .after = emphysema_severity) %>% 
   view()
 
+summary(dataPrep)
 
 describe(dataPrep$age_at_enrollment)
+var(dataPrep$age_at_enrollment, na.rm = TRUE)
+
+
+describe(dataPrep$BMI)
+var(dataPrep$BMI, na.rm = TRUE)
+
+
+describe(dataPrep$hivrna)
+var(dataPrep$hivrna, na.rm = TRUE)
+
+z_score <- function(x) (x - mean(x, na.rm = TRUE))/sd(x, na.rm = TRUE)
+head(z_score(dataPrep$hivrna))
+
+
+hist(dataPrep$hivrna, breaks = 100)
+
+boxplot(dataPrep$cd4_cd8_ratio ~ smoking_status, dataPrep)
+boxplot(dataPrep$cd4_cd8_ratio ~ emphysema_severity, dataPrep)
+
+dataPrep %>% 
+  group_by(race_ethnicity) %>% 
+  summarise(describe(cd4_cd8_ratio))
+
+boxplot(dataPrep$cd4_cd8_ratio ~ race_ethnicity, dataPrep)
+
+ggplot(data = dataPrep) +
+  geom_bar(aes(x = "", fill = race_ethnicity))
+
+ggplot(data = dataPrep) +
+  geom_bar(aes(x = "", fill = smoking_status))
+
+ggplot(data = dataPrep) +
+  geom_bar(aes(x = "", fill = emphysema_severity_assessment))
 
